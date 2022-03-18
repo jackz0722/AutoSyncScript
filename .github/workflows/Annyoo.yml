@@ -1,0 +1,28 @@
+name: annyoo-sync 
+on:
+  schedule:
+    - cron: '25 14 * * *'
+  workflow_dispatch:
+  watch:
+    types: started
+  repository_dispatch:
+    types: sync-annyoo
+jobs:
+  repo-sync:
+    env:
+      PAT: ${{ secrets.ANNYOO }} 
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: sync ztxtop-x
+        uses: repo-sync/github-sync@v2
+        if: env.PAT
+        with:
+          source_repo: "git@github.com:Annyoo2021/scripts.git"
+          source_branch: "main"
+          destination_branch: "ztxtop"
+          github_token: ${{ secrets.ANNYOO }}
