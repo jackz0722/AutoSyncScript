@@ -10,7 +10,7 @@ on:
 jobs:
   repo-sync:
     env:
-      PAT: ${{ secrets.ANNYOO }} 
+      PAT: ${{ secrets.PAT }} 
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
@@ -18,11 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync ztxtop-x
-        uses: repo-sync/github-sync@v2
-        if: env.PAT
+      - name: sync annyoo
+        uses: repo-sync/github-annyoo
+        if: env.ANNYOO
         with:
           source_repo: "git@github.com:Annyoo2021/scripts.git"
           source_branch: "main"
           destination_branch: "ztxtop"
-          github_token: ${{ secrets.ANNYOO }}
+          github_token: ${{ secrets.PAT }}
